@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home.component';
-import { PostComponent } from './post.component';
-import { BlogComponent } from './blog.component';
-import { PageNotFoundComponent } from './404.component';
+import { HomeComponent } from './home/home.component';
+import { PostComponent } from './post/post.component';
+import { BlogComponent } from './blog/blog.component';
+import { PageNotFoundComponent } from './404/404.component';
 
 import { RouterModule, Routes } from '@angular/router';
 import { environment } from '../environments/environment';
