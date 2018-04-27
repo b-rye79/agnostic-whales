@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home.component';
 import { PostComponent } from './post.component';
+import { BlogComponent } from './blog.component';
 import { PageNotFoundComponent } from './404.component';
 
 import { RouterModule, Routes } from '@angular/router';
@@ -12,6 +13,7 @@ import { environment } from '../environments/environment';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
+  { path: 'blog', component: BlogComponent },
   { path: 'post/:id',      component: PostComponent },
   { path: '',
     redirectTo: '/home',
@@ -22,7 +24,11 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent, HomeComponent, PostComponent, PageNotFoundComponent
+    AppComponent, 
+    HomeComponent, 
+    PostComponent, 
+    BlogComponent, 
+    PageNotFoundComponent
   ],
   imports: [
     RouterModule.forRoot(
