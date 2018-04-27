@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { PostService } from './post.service';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -37,7 +38,7 @@ const appRoutes: Routes = [
     ),
     BrowserModule
   ],
-  providers: [],
+  providers: [ PostService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

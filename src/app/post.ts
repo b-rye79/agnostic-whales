@@ -3,5 +3,6 @@ export class Post{
     title: string;
     author: string;
     date: Date;
+    tags: string[];
     content: string;
 }
