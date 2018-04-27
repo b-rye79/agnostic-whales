@@ -1,6 +1,7 @@
 <h1 class="display-4">{{post.title}}</h1>
 <div class="ml-2">
 <p><small>{{post.date | date:'fullDate'}}</small></p>
+<a *ngFor="let t of post.tags" routerLink="/blog/{{t}}">{{t}} </a>
 <p class="lead">By: {{post.author}}</p>
 <p [innerHTML]="post.content"></p>
 </div>

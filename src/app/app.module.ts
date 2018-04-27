@@ -11,12 +11,13 @@ import { PageNotFoundComponent } from './404/404.component';
 
 import { RouterModule, Routes } from '@angular/router';
 import { environment } from '../environments/environment';
+import { ArchiveComponent } from './archive/archive.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'blog', component: BlogComponent },
   { path: 'blog/:tag', component: BlogComponent },
-  { path: 'archive/:year', component: BlogComponent },
+  { path: 'archive', component: ArchiveComponent },
   { path: 'post/:id',      component: PostComponent },
   { path: '',
     redirectTo: '/home',
@@ -31,7 +32,8 @@ const appRoutes: Routes = [
     HomeComponent, 
     PostComponent, 
     BlogComponent, 
-    PageNotFoundComponent
+    PageNotFoundComponent, 
+    ArchiveComponent
   ],
   imports: [
     RouterModule.forRoot(
