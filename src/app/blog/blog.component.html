@@ -3,7 +3,7 @@
         <div class="card-body">
             <a routerLink="/post/{{post._id}}"><h5 class="card-title">{{post.title}}</h5></a>
             <h6 class="card-subtitle mb-2 text-muted">{{post.date | date:'fullDate'}}</h6>
-            <a *ngFor='let tag of post.tags' routerLink="{{tag}}" class="card-link">{{tag}}</a>
+            <a *ngFor='let tag of post.tags' routerLink="/blog/{{tag}}" class="card-link">{{tag}}</a>
         </div>
     </div>
 </div>

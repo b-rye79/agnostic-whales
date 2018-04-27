@@ -15,6 +15,8 @@ import { environment } from '../environments/environment';
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'blog', component: BlogComponent },
+  { path: 'blog/:tag', component: BlogComponent },
+  { path: 'archive/:year', component: BlogComponent },
   { path: 'post/:id',      component: PostComponent },
   { path: '',
     redirectTo: '/home',

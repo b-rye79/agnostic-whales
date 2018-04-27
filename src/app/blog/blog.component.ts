@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 import { Post } from '../post';
 import { PostService } from '../post.service';
 
@@ -10,13 +13,17 @@ import { PostService } from '../post.service';
 export class BlogComponent implements OnInit {
   posts: Post[];
   
-  constructor(private postService: PostService){}
+  constructor(
+    private postService: PostService,
+    private route: ActivatedRoute,
+    private location: Location){}
 
   ngOnInit(): void {
     this.getPosts();
   }
 
   getPosts(): void {
-    this.posts = this.postService.getPosts();
+    this.route.params.subscribe(params => 
+      this.postService.getPosts(params['tag']).subscribe(psts => this.posts = psts));
   }
 }
