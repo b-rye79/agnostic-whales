@@ -1,6 +1,7 @@
 
 <div *ngFor='let year of years; let i = index' class="mb-4">
-  <h3 class="lead">{{year}}</h3>
-  <div *ngFor='let post of posts[i]'><a routerLink="/post/{{post._id}}">{{post.title}}</a>
+  <h3 class="font-weight-light">{{year}}</h3>
+  <div *ngFor='let post of posts[i]'><a routerLink="/post/{{post._id}}" class="lead mr-2">{{post.title}}</a>
+    <a *ngFor='let tag of post.tags' routerLink="/blog/{{tag}}" class="badge badge-light m-1">{{tag}}</a>
   </div>
 </div>
