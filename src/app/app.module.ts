@@ -14,13 +14,13 @@ import { environment } from '../environments/environment';
 import { ArchiveComponent } from './archive/archive.component';
 
 const appRoutes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'blog', component: BlogComponent },
   { path: 'blog/:tag', component: BlogComponent },
   { path: 'archive', component: ArchiveComponent },
   { path: 'post/:id',      component: PostComponent },
-  { path: '',
-    redirectTo: '/home',
+  { path: 'home',
+    redirectTo: '',
     pathMatch: 'full'
   },
   { path: '**', component: PageNotFoundComponent }
