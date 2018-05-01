@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Post } from './post';
-import { POSTS } from './_mock/mock-posts';
 
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class PostService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getPosts(tag: string): Observable<Post[]> {
     if(tag && tag.length > 0){
-      return of(POSTS.filter(post => post.tags.some(t => t === tag)));
+      return this.http.get<Post[]>('api/catagory/' + tag);
     }
-    return of(POSTS);
+    return this.http.get<Post[]>('api/featured'); 
   }
 
   getPost(id: string): Observable<Post> {
-    return of(POSTS.find(post => post._id === id));
+    return this.http.get<Post>('api/post/' + id);
   }
 }

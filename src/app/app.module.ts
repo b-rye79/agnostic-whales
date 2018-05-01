@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { PostService } from './post.service';
 
@@ -40,7 +41,8 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: environment.production == false } 
     ),
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
   providers: [ PostService ],
   bootstrap: [AppComponent]

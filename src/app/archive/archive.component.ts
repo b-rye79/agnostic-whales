@@ -28,12 +28,12 @@ export class ArchiveComponent implements OnInit {
       this.years = new Array<number>();
       this.posts = new Array<Post[]>();
       var y = new Date().getFullYear();
-      var yPosts = psts.filter(p => p.date.getFullYear() === y);
+      var yPosts = psts.filter(p => new Date(p.date).getFullYear() === y);
       while(yPosts.length > 0){
           this.years.push(y);
           this.posts.push(yPosts);
           y = y - 1;
-          yPosts = psts.filter(p => p.date.getFullYear() === y);
+          yPosts = psts.filter(p => new Date(p.date).getFullYear() === y);
       }
     });
   }
