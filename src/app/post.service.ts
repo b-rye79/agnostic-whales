@@ -4,6 +4,8 @@ import { Post } from './post';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from '../environments/environment';
+
 @Injectable()
 export class PostService {
 
@@ -11,12 +13,12 @@ export class PostService {
 
   getPosts(tag: string): Observable<Post[]> {
     if(tag && tag.length > 0){
-      return this.http.get<Post[]>('api/catagory/' + tag);
+      return this.http.get<Post[]>(environment.apiUrl + '/catagory/' + tag);
     }
-    return this.http.get<Post[]>('api/featured'); 
+    return this.http.get<Post[]>(environment.apiUrl + '/featured'); 
   }
 
   getPost(id: string): Observable<Post> {
-    return this.http.get<Post>('api/post/' + id);
+    return this.http.get<Post>(environment.apiUrl + '/post/' + id);
   }
 }

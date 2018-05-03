@@ -25,18 +25,22 @@ var posts = [
   }
 ];
 
-router.get('/featured', function(req, res){
+router.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.setHeader('Content-Type', 'application/json');
+  next();
+});
+
+router.get('/featured', function(req, res){
   res.send(JSON.stringify(posts));
 })
 
 router.get('/catagory/:tag', function(req, res){
-  res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify(posts.filter(post => post.tags.some(t => t === req.params.tag))));
 })
 
 router.get('/post/:id', function(req, res){
-  res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify(posts.find(x => x._id === req.params.id)));
 })
 
