@@ -25,6 +25,19 @@ var posts = [
   }
 ];
 
+var db = require('./db')
+
+// Connect to Mongo on start
+db.connect('mongodb://localhost:27017/test', function(err) {
+  if (err) {
+    console.log('Unable to connect to MongoDB.')
+  } else {
+    console.log('Connected to MongoDB.')
+  }
+})
+
+
+
 router.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
