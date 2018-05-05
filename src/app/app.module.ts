@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
+import { AuthService } from './auth.service';
 import { PostService } from './post.service';
 
 import { AppComponent } from './app.component';
@@ -36,7 +37,8 @@ const appRoutes: Routes = [
     PostComponent, 
     BlogComponent, 
     PageNotFoundComponent, 
-    ArchiveComponent, SigninComponent
+    ArchiveComponent, 
+    SigninComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -46,7 +48,7 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpClientModule
   ],
-  providers: [ PostService ],
+  providers: [ AuthService, PostService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

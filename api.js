@@ -1,6 +1,8 @@
 var express = require('express')
 var MongoClient = require('mongodb').MongoClient
 var bodyParser = require('body-parser')
+var jwt = require('jsonwebtoken');
+var fs = require('file-system');
 var router = express.Router()
 
 var db;
@@ -9,7 +11,12 @@ MongoClient.connect('mongodb://localhost:27017', function (err, client) {
 
   db = client.db('blog');
 
-  // TODO: if no admin user exists create one
+  db.collection('users').find().toArray(function(err, users){
+    if(users.length == 0){
+      console.log('Creating admin user.')
+      db.collection('users').insert({ username: "admin", password: "admin123"});
+    }
+  })
 })
 
 router.use(bodyParser.urlencoded({ extended: false }))
@@ -43,7 +50,17 @@ router.get('/post/:id', function(req, res){
   })
 })
 
-var auth = false;
+const RSA_PRIVATE_KEY = fs.readFileSync('./private.key');
+router.post('/signin', function(req, res) {
+  db.collection('users').findOne({ email: req.body.email, password: req.body.password }, function(err, user){
+    if (err || !user) res.sendStatus(401)
+    else {
+        const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, { algorithm: 'RS256', expiresIn: 120, subject: user._id.toString() });
+        res.status(200).json({ idToken: jwtBearerToken, expiresIn: 120}); 
+    }
+  });
+});
+
 //TODO: add middleware that blocks modifications unless auth == true
 
 /* Don't allow this on production until auth gaurded
