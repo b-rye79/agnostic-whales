@@ -8,6 +8,8 @@ MongoClient.connect('mongodb://localhost:27017', function (err, client) {
   if (err) throw err
 
   db = client.db('blog');
+
+  // TODO: if no admin user exists create one
 })
 
 router.use(bodyParser.urlencoded({ extended: false }))
@@ -40,6 +42,10 @@ router.get('/post/:id', function(req, res){
     res.send(JSON.stringify(post));
   })
 })
+
+var auth = false;
+//TODO: add middleware that blocks modifications unless auth == true
+
 /* Don't allow this on production until auth gaurded
 router.post('/post/:id', function(req, res){
   req.body.date = new Date()
