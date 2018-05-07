@@ -63,10 +63,16 @@ router.post('/signin', function(req, res) {
   });
 });
 
+const RSA_PUBLIC_KEY = fs.readFileSync('./public.key');
 router.all('/*', function(req, res, next){
-  var auth = false; // TODO: get the actual auth value
-  if(auth) next()
-  else res.sendStatus(401)
+  var token = req.get('X-Auth-Token')
+  jwt.verify(token, RSA_PUBLIC_KEY, { algorithm: 'RS256'}, function(err, decoded){
+    if(err) res.sendStatus(401)
+    else {
+      console.log(decoded)
+      next()
+    } 
+  })
 })
 
 router.get('/user', function(req, res){
