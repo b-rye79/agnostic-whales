@@ -1,14 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
+import { AuthGuard } from './_guards/auth.guard';
+import { AuthInterceptor } from './_interceptors/auth.interceptor';
+
 import { PostService } from './post.service';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { PostComponent } from './post/post.component';
 import { BlogComponent } from './blog/blog.component';
+import { AccountComponent } from './account/account.component';
 import { PageNotFoundComponent } from './404/404.component';
 
 import { RouterModule, Routes } from '@angular/router';
@@ -23,6 +28,7 @@ const appRoutes: Routes = [
   { path: 'blog/:tag', component: BlogComponent },
   { path: 'archive', component: ArchiveComponent },
   { path: 'post/:id',      component: PostComponent },
+  { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
   { path: 'home',
     redirectTo: '',
     pathMatch: 'full'
@@ -38,17 +44,23 @@ const appRoutes: Routes = [
     BlogComponent, 
     PageNotFoundComponent, 
     ArchiveComponent, 
-    SigninComponent
+    SigninComponent,
+    AccountComponent
   ],
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: environment.production == false } 
+      { enableTracing: environment.production != false } 
     ),
     BrowserModule,
+    FormsModule, ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ AuthService, PostService ],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true,
+  }, AuthGuard, AuthService, PostService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

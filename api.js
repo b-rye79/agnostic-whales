@@ -4,6 +4,7 @@ var bodyParser = require('body-parser')
 var jwt = require('jsonwebtoken');
 var fs = require('file-system');
 var router = express.Router()
+var cors = require('cors')
 
 var db;
 MongoClient.connect('mongodb://localhost:27017', function (err, client) {
@@ -19,12 +20,11 @@ MongoClient.connect('mongodb://localhost:27017', function (err, client) {
   })
 })
 
+router.use(cors())
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
 
 router.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.setHeader('Content-Type', 'application/json');
   next();
 });
@@ -52,7 +52,9 @@ router.get('/post/:id', function(req, res){
 
 const RSA_PRIVATE_KEY = fs.readFileSync('./private.key');
 router.post('/signin', function(req, res) {
-  db.collection('users').findOne({ email: req.body.email, password: req.body.password }, function(err, user){
+  db.collection('users').findOne( {$or: [
+    { username: req.body.email, password: req.body.password },
+    { email: req.body.email, password: req.body.password }]}, function(err, user){
     if (err || !user) res.sendStatus(401)
     else {
         const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, { algorithm: 'RS256', expiresIn: 120, subject: user._id.toString() });
@@ -61,9 +63,16 @@ router.post('/signin', function(req, res) {
   });
 });
 
-//TODO: add middleware that blocks modifications unless auth == true
+router.all('/*', function(req, res, next){
+  var auth = false; // TODO: get the actual auth value
+  if(auth) next()
+  else res.sendStatus(401)
+})
 
-/* Don't allow this on production until auth gaurded
+router.get('/user', function(req, res){
+  res.sendStatus(501)
+})
+
 router.post('/post/:id', function(req, res){
   req.body.date = new Date()
   db.collection('posts').update({ _id: req.params.id }, req.body, { upsert: true }, function(err, result){
@@ -71,6 +80,6 @@ router.post('/post/:id', function(req, res){
     res.send(JSON.stringify(result));
   })
 })
-*/
+
 
 module.exports = router
