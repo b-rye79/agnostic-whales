@@ -7,19 +7,15 @@ import { environment } from '../environments/environment';
 
 @Injectable()
 export class AuthService {
-    public currentUser: any;
 
     constructor(private http: HttpClient) {
-        // set token if saved in local storage
-        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
       
     login(email:string, password:string ) : Observable<boolean> {
         return this.http.post(environment.apiUrl + '/signin', {email, password}).map((response : any) =>{
             // login successful if there's a jwt token in the response
             if(response.idToken){
-                this.currentUser = { username: email, token: response }
-                localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+                localStorage.setItem('currentUser', JSON.stringify({ username: email, token: response }));
                 return true;
             }
             else{
@@ -28,9 +24,15 @@ export class AuthService {
         });
     }
 
+    loggedIn(): any{
+        var u = localStorage.getItem('currentUser');
+        if(u){
+            return JSON.parse(u);
+        }
+        return null;
+    }
+
     logout(): void {
-        // clear token remove user from local storage to log user out
-        this.currentUser = null;
         localStorage.removeItem('currentUser');
     }
 }

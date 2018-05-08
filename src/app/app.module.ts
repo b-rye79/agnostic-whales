@@ -23,10 +23,12 @@ import { environment } from '../environments/environment';
 import { ArchiveComponent } from './archive/archive.component';
 import { SigninComponent } from './signin/signin.component';
 import { PostEditComponent } from './post-edit/post-edit.component';
+import { SignoutComponent } from './signout/signout.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'auth', component: SigninComponent },
+  { path: 'signin', component: SigninComponent },
+  { path: 'signout', component: SignoutComponent },
   { path: 'blog', component: BlogComponent },
   { path: 'blog/:tag', component: BlogComponent },
   { path: 'archive', component: ArchiveComponent },
@@ -49,7 +51,8 @@ const appRoutes: Routes = [
     ArchiveComponent, 
     SigninComponent,
     AccountComponent,
-    PostEditComponent
+    PostEditComponent,
+    SignoutComponent
   ],
   imports: [
     RouterModule.forRoot(

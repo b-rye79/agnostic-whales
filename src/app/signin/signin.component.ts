@@ -28,7 +28,6 @@ export class SigninComponent {
         this.authService.login(val.email, val.password)
             .subscribe(
                 loggedIn => {
-                    console.log(loggedIn);
                     this.router.navigateByUrl('/account');
                 }
             );
