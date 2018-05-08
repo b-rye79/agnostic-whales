@@ -58,8 +58,9 @@ router.post('/signin', function(req, res) {
     { email: req.body.email, password: req.body.password }]}, function(err, user){
     if (err || !user) res.sendStatus(401)
     else {
-        const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, { algorithm: 'RS256', expiresIn: 120, subject: user._id.toString() });
-        res.status(200).json({ idToken: jwtBearerToken, expiresIn: 60 * 60 * 24 }); 
+      var exp = 60 * 60 * 24;
+        const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, { algorithm: 'RS256', expiresIn: exp, subject: user._id.toString() });
+        res.status(200).json({ idToken: jwtBearerToken, expiresIn: exp }); 
     }
   });
 });

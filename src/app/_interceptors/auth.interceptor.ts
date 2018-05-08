@@ -9,8 +9,9 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private authService: AuthService){}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        var currentUser = this.authService.loggedIn();
-        if (currentUser) {
+        var cuString = localStorage.getItem('currentUser');
+        if (cuString) {
+            var currentUser = JSON.parse(cuString);
             const authReq = req.clone({ setHeaders: { "X-Auth-Token": `${currentUser.token.idToken}` } });
 
             return next.handle(authReq);
