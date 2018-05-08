@@ -1,5 +1,6 @@
 var express = require('express')
 var MongoClient = require('mongodb').MongoClient
+var ObjectId = require('mongodb').ObjectId
 var bodyParser = require('body-parser')
 var jwt = require('jsonwebtoken');
 var fs = require('file-system');
@@ -58,7 +59,7 @@ router.post('/signin', function(req, res) {
     if (err || !user) res.sendStatus(401)
     else {
         const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, { algorithm: 'RS256', expiresIn: 120, subject: user._id.toString() });
-        res.status(200).json({ idToken: jwtBearerToken, expiresIn: 120}); 
+        res.status(200).json({ idToken: jwtBearerToken, expiresIn: 60 * 60 * 24 }); 
     }
   });
 });
@@ -69,22 +70,49 @@ router.all('/*', function(req, res, next){
   jwt.verify(token, RSA_PUBLIC_KEY, { algorithm: 'RS256'}, function(err, decoded){
     if(err) res.sendStatus(401)
     else {
-      console.log(decoded)
+      req.locals = { userid: decoded.sub }
       next()
     } 
   })
 })
 
 router.get('/user', function(req, res){
-  res.sendStatus(501)
+  db.collection('users').findOne( { _id: ObjectId(req.locals.userid) }, function(err, user){
+    if (err || !user) res.sendStatus(500)
+    else {
+        res.send(JSON.stringify(user)); 
+    }
+  });
 })
 
-router.post('/post/:id', function(req, res){
-  req.body.date = new Date()
-  db.collection('posts').update({ _id: req.params.id }, req.body, { upsert: true }, function(err, result){
+router.post('/user', function(req, res){
+  if(req.locals.userid === req.body._id){
+    delete req.body._id
+    db.collection('users').update({ _id: ObjectId(req.locals.userid) }, req.body, { upsert: true }, function(err, result){
+      if (err) res.sendStatus(500)
+      else {
+        res.send(JSON.stringify(result));
+      }
+    })
+  } else{
+    res.sendStatus(401)
+  }
+})
 
-    res.send(JSON.stringify(result));
-  })
+router.post('/post', function(req, res){
+  db.collection('users').findOne( { _id: ObjectId(req.locals.userid) }, function(err, user){
+    if (err || !user) res.sendStatus(401)
+    else {
+      req.body.date = new Date()
+      req.body.author = user.name ? user.name : user.username;
+      db.collection('posts').update({ _id: req.body._id }, req.body, { upsert: true }, function(err, result){
+        if (err) res.sendStatus(500)
+        else {
+          res.send(JSON.stringify(result));
+        }
+      })
+    }
+  });
 })
 
 

@@ -9,6 +9,8 @@ import { AuthInterceptor } from './_interceptors/auth.interceptor';
 
 import { PostService } from './post.service';
 
+import { UserService } from './user.service';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { PostComponent } from './post/post.component';
@@ -20,6 +22,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { environment } from '../environments/environment';
 import { ArchiveComponent } from './archive/archive.component';
 import { SigninComponent } from './signin/signin.component';
+import { PostEditComponent } from './post-edit/post-edit.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -45,7 +48,8 @@ const appRoutes: Routes = [
     PageNotFoundComponent, 
     ArchiveComponent, 
     SigninComponent,
-    AccountComponent
+    AccountComponent,
+    PostEditComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -60,7 +64,7 @@ const appRoutes: Routes = [
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true,
-  }, AuthGuard, AuthService, PostService ],
+  }, AuthGuard, AuthService, PostService, UserService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
