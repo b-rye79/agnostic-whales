@@ -2,5 +2,6 @@
  <input [(ngModel)]="post.title" class="form-control mb-3" />
  <textarea [(ngModel)]="post.content" class="form-control mb-3" style="height: 600px"></textarea>
  <button (click)="updatePost()" class="btn btn-sm btn-primary">Save</button>
+ <a routerLink="/post/{{post._id}}" class="btn btn-sm btn-secondary">View</a>
  <span *ngIf="changesSaved" class="badge badge-success ml-4">Changes saved.</span>
 </div>

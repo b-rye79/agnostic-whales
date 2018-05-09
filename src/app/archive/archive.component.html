@@ -1,4 +1,5 @@
 
+<a *ngIf="isLoggedIn" routerLink="/create" class="badge badge-primary">Create Post</a>
 <div *ngFor='let year of years; let i = index' class="mb-4">
   <h3 class="font-weight-light">{{year}}</h3>
   <div *ngFor='let post of posts[i]'><a routerLink="/post/{{post._id}}" class="lead mr-2">{{post.title}}</a>

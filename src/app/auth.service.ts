@@ -7,11 +7,11 @@ import { environment } from '../environments/environment';
 
 @Injectable()
 export class AuthService {
-    private isLoggedIn: BehaviorSubject<Boolean>;
+    private isLoggedIn: BehaviorSubject<boolean>;
 
     constructor(private http: HttpClient) {
         var cuString = localStorage.getItem('currentUser');
-        this.isLoggedIn = new BehaviorSubject<Boolean>(cuString != null);
+        this.isLoggedIn = new BehaviorSubject<boolean>(cuString != null);
     }
       
     login(email:string, password:string ) : Observable<boolean> {
@@ -25,11 +25,11 @@ export class AuthService {
         });
     }
 
-    loggedIn(): Observable<Boolean>{
+    loggedIn(): Observable<boolean>{
         return this.isLoggedIn;
     }
 
-    logout(): Observable<Boolean>{
+    logout(): Observable<boolean>{
         localStorage.removeItem('currentUser');
         this.isLoggedIn.next(false);
         return this.isLoggedIn;

@@ -16,7 +16,7 @@ MongoClient.connect('mongodb://localhost:27017', function (err, client) {
   db.collection('users').find().toArray(function(err, users){
     if(users.length == 0){
       console.log('Creating admin user.')
-      db.collection('users').insert({ username: "admin", password: "admin123"});
+      db.collection('users').insert({ username: "admin", password: "admin123", role: "admin"});
     }
   })
 })
@@ -58,8 +58,8 @@ router.post('/signin', function(req, res) {
     { email: req.body.email, password: req.body.password }]}, function(err, user){
     if (err || !user) res.sendStatus(401)
     else {
-      var exp = 60 * 60 * 24;
-        const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, { algorithm: 'RS256', expiresIn: exp, subject: user._id.toString() });
+        var exp = 60 * 60 * 24;
+        const jwtBearerToken = jwt.sign({ role: user.role }, RSA_PRIVATE_KEY, { algorithm: 'RS256', expiresIn: exp, subject: user._id.toString() });
         res.status(200).json({ idToken: jwtBearerToken, expiresIn: exp }); 
     }
   });
@@ -71,14 +71,15 @@ router.all('/*', function(req, res, next){
   jwt.verify(token, RSA_PUBLIC_KEY, { algorithm: 'RS256'}, function(err, decoded){
     if(err) res.sendStatus(401)
     else {
-      req.locals = { userid: decoded.sub }
+      console.log(decoded)
+      req.locals = { id: decoded.sub, role: decoded.role }
       next()
     } 
   })
 })
 
 router.get('/user', function(req, res){
-  db.collection('users').findOne( { _id: ObjectId(req.locals.userid) }, function(err, user){
+  db.collection('users').findOne( { _id: ObjectId(req.locals.id) }, function(err, user){
     if (err || !user) res.sendStatus(500)
     else {
         res.send(JSON.stringify(user)); 
@@ -87,9 +88,11 @@ router.get('/user', function(req, res){
 })
 
 router.post('/user', function(req, res){
-  if(req.locals.userid === req.body._id){
+  if(req.locals.id === req.body._id || req.locals.role === "admin" ){
     delete req.body._id
-    db.collection('users').update({ _id: ObjectId(req.locals.userid) }, req.body, { upsert: true }, function(err, result){
+    if(!req.body.role) req.body.role = "contributor";
+    
+    db.collection('users').update({ _id: ObjectId(req.locals.id) }, req.body, { upsert: true }, function(err, result){
       if (err) res.sendStatus(500)
       else {
         res.send(JSON.stringify(result));
@@ -101,7 +104,7 @@ router.post('/user', function(req, res){
 })
 
 router.post('/post', function(req, res){
-  db.collection('users').findOne( { _id: ObjectId(req.locals.userid) }, function(err, user){
+  db.collection('users').findOne( { _id: ObjectId(req.locals.id) }, function(err, user){
     if (err || !user) res.sendStatus(401)
     else {
       req.body.date = new Date()

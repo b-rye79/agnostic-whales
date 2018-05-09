@@ -5,6 +5,8 @@ import { Location } from '@angular/common';
 import { Post } from '../post.model';
 import { PostService } from '../post.service';
 
+import { AuthService } from '../auth.service';
+
 @Component({
   selector: 'app-archive',
   templateUrl: './archive.component.html',
@@ -13,11 +15,15 @@ import { PostService } from '../post.service';
 export class ArchiveComponent implements OnInit {
   years: number[];
   posts: Post[][];
+  isLoggedIn:boolean;
   
   constructor(
     private postService: PostService,
+    private authService: AuthService,
     private route: ActivatedRoute,
-    private location: Location){}
+    private location: Location){
+      this.authService.loggedIn().subscribe(result => this.isLoggedIn = result);
+    }
 
   ngOnInit(): void {
     this.getPosts();

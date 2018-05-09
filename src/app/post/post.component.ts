@@ -5,6 +5,9 @@ import { Location } from '@angular/common';
 import { Post } from '../post.model';
 import { PostService } from '../post.service';
 
+
+import { AuthService } from '../auth.service';
+
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
@@ -12,14 +15,17 @@ import { PostService } from '../post.service';
 })
 export class PostComponent implements OnInit {
   post: Post;
-  
+  isLoggedIn:boolean;
+
   constructor(
     private postService: PostService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private location: Location){}
 
   ngOnInit(): void {
     this.getPost();
+    this.authService.loggedIn().subscribe(result => this.isLoggedIn = result);
   }
 
   getPost(): void {

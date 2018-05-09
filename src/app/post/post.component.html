@@ -1,8 +1,10 @@
 <div *ngIf="post">
-<h1 class="display-4">{{post.title}}</h1>
-<div class="ml-2">
-<p><small>{{post.date | date:'fullDate'}}</small></p>
-<a *ngFor="let t of post.tags" routerLink="/blog/{{t}}" class="badge badge-light mr-1">{{t}} </a>
-<p class="lead">By: {{post.author}}</p>
-<p [innerHTML]="post.content"></p>
-</div></div>
+    <a *ngIf="isLoggedIn" routerLink="/edit/{{post._id}}" class="badge badge-primary">Edit</a>
+    <h1 class="display-4">{{post.title}}</h1>
+    <div class="ml-2">
+        <p><small>{{post.date | date:'fullDate'}}</small></p>
+        <a *ngFor="let t of post.tags" routerLink="/blog/{{t}}" class="badge badge-light mr-1">{{t}} </a>
+        <p class="lead">By: {{post.author}}</p>
+        <p [innerHTML]="post.content"></p>
+    </div>
+</div>
