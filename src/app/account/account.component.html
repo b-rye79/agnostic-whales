@@ -1,3 +1,27 @@
 <div *ngIf="user">
-<h1 class="display-4">Welcome {{user.name ? user.name : user.username}}!</h1>
+    <h4>Account Settings</h4>
+    <hr/>
+    <div class="row">
+        <div class="form-group col-4">
+            <label for="nameInput">Name</label>
+            <input [(ngModel)]="user.name" type="text" class="form-control" id="nameInput" aria-describedby="nameHelp" placeholder="Enter name">
+            <small id="nameHelp" class="form-text text-muted">Your name will appear as the author of your posts.</small>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-4">
+            <label for="usernameInput">Username</label>
+            <input [(ngModel)]="user.username" type="text" class="form-control" id="usernameInput" aria-describedby="usernameHelp" placeholder="Enter username">
+            <small id="usernameHelp" class="form-text text-muted">Set a username that you can login with instead of your email address.</small>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-6">
+            <label for="emailInput">Email address</label>
+            <input [(ngModel)]="user.email" type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">Used for login and for notifications. We'll never share your email with anyone else.</small>
+        </div>
+    </div>
+    <button (click)="updateUser()" class="btn btn-sm btn-primary">Submit</button>
+    <span *ngIf="changesSaved" class="badge badge-success ml-4">Changes saved.</span>
 </div>

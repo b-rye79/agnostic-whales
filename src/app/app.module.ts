@@ -34,6 +34,7 @@ const appRoutes: Routes = [
   { path: 'archive', component: ArchiveComponent },
   { path: 'post/:id',      component: PostComponent },
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
+  { path: 'edit/:id', component: PostEditComponent, canActivate: [AuthGuard] },
   { path: 'home',
     redirectTo: '',
     pathMatch: 'full'

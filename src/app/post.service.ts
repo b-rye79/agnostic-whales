@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Post } from './post';
+import { Post } from './post.model';
 
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
@@ -20,5 +20,9 @@ export class PostService {
 
   getPost(id: string): Observable<Post> {
     return this.http.get<Post>(environment.apiUrl + '/post/' + id);
+  }
+  
+  updatePost(post: Post): Observable<any>{
+    return this.http.post<any>(environment.apiUrl + '/post', post);
   }
 }
