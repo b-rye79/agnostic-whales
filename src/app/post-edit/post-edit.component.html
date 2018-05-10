@@ -1,5 +1,5 @@
 <div *ngIf="post">
- <input [(ngModel)]="post.title" class="form-control mb-3" />
+ <input [(ngModel)]="post.title" class="form-control mb-3" placeholder="Enter a post title" />
  <textarea [(ngModel)]="post.content" class="form-control mb-3" style="height: 600px"></textarea>
  <button (click)="updatePost()" class="btn btn-sm btn-primary">Save</button>
  <a routerLink="/post/{{post._id}}" class="btn btn-sm btn-secondary">View</a>
