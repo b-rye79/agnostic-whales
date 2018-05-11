@@ -60,7 +60,11 @@ export class PostEditComponent implements OnInit {
 
   addTag(): void{
     if(this.post && this.newTag && this.newTag.length > 0){
+      if(!this.post.tags){
+        this.post.tags = new Array<string>();
+      }
       this.post.tags.push(this.newTag);
+      this.newTag = '';
     }
   }
 
