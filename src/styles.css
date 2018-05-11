@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+
+.vsc-codeblock-card {
+    font-family: Consolas, "Courier New", monospace;
+    border: none;
+}
+
+.vsc-codeblock-card .card-header{
+    padding: 2px 10px;
+    background-color: rgba(0,0,0,0.10);
+}
+
+.vsc-codeblock-card .card-body{
+    background-color:rgb(30,30,30);
+    white-space: pre;
+    border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
+}
+
+.vsc-codeblock{
+    background-color:rgb(30,30,30);
+    font-family: Consolas, "Courier New", monospace;
+    white-space: pre;
+}
