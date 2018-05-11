@@ -38,7 +38,7 @@ router.get('/featured', function(req, res){
 })
 
 router.get('/catagory/:tag', function(req, res){
-  db.collection('posts').find({"tags" : { $in : [req.params.tag], published: true  } }).toArray(function (err, posts) {
+  db.collection('posts').find({"tags" : { $in : [req.params.tag] }, published: true  }).toArray(function (err, posts) {
     if (err) throw err
     res.send(JSON.stringify(posts));
   })

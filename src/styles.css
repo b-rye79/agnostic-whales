@@ -14,10 +14,13 @@
     background-color:rgb(30,30,30);
     white-space: pre;
     border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
+    overflow-x: scroll;
 }
 
 .vsc-codeblock{
     background-color:rgb(30,30,30);
     font-family: Consolas, "Courier New", monospace;
     white-space: pre;
+    overflow-x: scroll;
+    border: none;
 }
