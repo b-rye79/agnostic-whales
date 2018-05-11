@@ -15,7 +15,7 @@ MongoClient.connect('mongodb://localhost:27017', function (err, client) {
 
   db.collection('users').find().toArray(function(err, users){
     if(users.length == 0){
-      console.log('Creating admin user.')
+      console.log('NO Admin user... Creating one now.')
       db.collection('users').insert({ username: "admin", password: "admin123", role: "admin"});
     }
   })
@@ -71,7 +71,6 @@ router.all('/*', function(req, res, next){
   jwt.verify(token, RSA_PUBLIC_KEY, { algorithm: 'RS256'}, function(err, decoded){
     if(err) res.sendStatus(401)
     else {
-      console.log(decoded)
       req.locals = { id: decoded.sub, role: decoded.role }
       next()
     } 

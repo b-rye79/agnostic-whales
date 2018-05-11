@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { NgxEditorModule } from 'ngx-editor';
+
 import { AuthService } from './auth.service';
 import { AuthGuard } from './_guards/auth.guard';
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
@@ -63,7 +65,8 @@ const appRoutes: Routes = [
     ),
     BrowserModule,
     FormsModule, ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxEditorModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

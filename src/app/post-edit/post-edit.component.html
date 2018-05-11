@@ -1,7 +1,22 @@
 <div *ngIf="post">
- <input [(ngModel)]="post.title" class="form-control mb-3" placeholder="Enter a post title" />
- <textarea [(ngModel)]="post.content" class="form-control mb-3" style="height: 600px"></textarea>
- <button (click)="updatePost()" class="btn btn-sm btn-primary">Save</button>
- <a routerLink="/post/{{post._id}}" class="btn btn-sm btn-secondary">View</a>
- <span *ngIf="changesSaved" class="badge badge-success ml-4">Changes saved.</span>
+    <input [(ngModel)]="post.title" class="form-control mb-3" placeholder="Enter a post title" />
+    <div class="row">
+        <div class="col text-right">
+        <button *ngFor="let tag of post.tags" (click)="removeTag(tag)" class="btn btn-light mr-2">{{tag}} <i class="fa fa-times"></i></button>
+        </div>
+        <div class="input-group mb-3 col-4">
+            <input type="text" [(ngModel)]="newTag" class="form-control" placeholder="Enter new tag name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button (click)="addTag()" class="btn btn-outline-secondary" type="button"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+    <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="post.content"></app-ngx-editor>
+    <div class="my-3">
+        <button (click)="updatePost()" class="btn btn-sm btn-primary">Save</button>
+        <a routerLink="/post/{{post._id}}" class="btn btn-sm btn-secondary">View</a>
+        <span *ngIf="changesSaved" class="badge badge-success ml-4">Changes saved.</span>
+    </div>
+    <h4>Raw html</h4>
+    <textarea [(ngModel)]="post.content" class="form-control mb-3" style="height: 600px"></textarea>
 </div>

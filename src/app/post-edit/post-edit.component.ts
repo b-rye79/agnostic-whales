@@ -5,15 +5,19 @@ import { Location } from '@angular/common';
 import { Post } from '../post.model';
 import { PostService } from '../post.service';
 
+
 @Component({
   selector: 'app-post-edit',
   templateUrl: './post-edit.component.html',
   styleUrls: ['./post-edit.component.css']
 })
+
+
 export class PostEditComponent implements OnInit {
   post: Post;
   changesSaved:boolean;
   originalId: String;
+  newTag: string;
 
   constructor(
     private postService: PostService,
@@ -42,7 +46,7 @@ export class PostEditComponent implements OnInit {
     });
   }
 
-  updatePost(){
+  updatePost(): void{
     if(!this.post._id){
       this.post._id = this.post.title.split(' ').join('-').toLowerCase();
     }
@@ -52,5 +56,17 @@ export class PostEditComponent implements OnInit {
         this.router.navigate(['/edit/' + this.post._id],);
       }
     });
+  }
+
+  addTag(): void{
+    if(this.post && this.newTag && this.newTag.length > 0){
+      this.post.tags.push(this.newTag);
+    }
+  }
+
+  removeTag(tag:string){
+    if(this.post){
+      this.post.tags = this.post.tags.filter(t => t !== tag);
+    }
   }
 }
