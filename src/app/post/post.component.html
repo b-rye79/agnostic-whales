@@ -5,6 +5,6 @@
         <p><small>{{post.date | date:'fullDate'}}</small></p>
         <a *ngFor="let t of post.tags" routerLink="/blog/{{t}}" class="badge badge-light mr-1">{{t}} </a>
         <p class="lead">By: {{post.author}}</p>
-        <p [innerHTML]="post.content"></p>
+        <p [innerHTML]="post.content | safeHtml"></p>
     </div>
 </div>

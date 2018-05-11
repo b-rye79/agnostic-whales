@@ -12,6 +12,7 @@
         </div>
     </div>
     <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="post.content"></app-ngx-editor>
+    <div><label><input type="checkbox" [(ngModel)]="post.published" />Published</label></div>
     <div class="my-3">
         <button (click)="updatePost()" class="btn btn-sm btn-primary">Save</button>
         <a routerLink="/post/{{post._id}}" class="btn btn-sm btn-secondary">View</a>

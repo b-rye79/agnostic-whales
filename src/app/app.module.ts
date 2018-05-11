@@ -27,6 +27,8 @@ import { SigninComponent } from './signin/signin.component';
 import { PostEditComponent } from './post-edit/post-edit.component';
 import { SignoutComponent } from './signout/signout.component';
 
+import {SafeHtmlPipe} from "./_pipes/safehtml.pipe";
+
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'signin', component: SigninComponent },
@@ -56,12 +58,13 @@ const appRoutes: Routes = [
     SigninComponent,
     AccountComponent,
     PostEditComponent,
-    SignoutComponent
+    SignoutComponent,
+    SafeHtmlPipe
   ],
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: environment.production != false } 
+      { enableTracing: environment.production == false } 
     ),
     BrowserModule,
     FormsModule, ReactiveFormsModule,

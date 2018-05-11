@@ -5,4 +5,5 @@ export class Post{
     date: Date;
     tags: string[];
     content: string;
+    published: boolean;
 }

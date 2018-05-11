@@ -31,14 +31,14 @@ router.use(function(req, res, next) {
 });
 
 router.get('/featured', function(req, res){
-  db.collection('posts').find().toArray(function (err, posts) {
+  db.collection('posts').find({ published: true }).toArray(function (err, posts) {
     if (err) throw err
     res.send(JSON.stringify(posts));
   })
 })
 
 router.get('/catagory/:tag', function(req, res){
-  db.collection('posts').find({"tags" : { $in : [req.params.tag]  } }).toArray(function (err, posts) {
+  db.collection('posts').find({"tags" : { $in : [req.params.tag], published: true  } }).toArray(function (err, posts) {
     if (err) throw err
     res.send(JSON.stringify(posts));
   })
