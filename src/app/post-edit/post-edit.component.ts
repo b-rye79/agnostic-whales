@@ -48,7 +48,7 @@ export class PostEditComponent implements OnInit {
 
   updatePost(): void{
     if(!this.post._id){
-      this.post._id = this.post.title.split(' ').join('-').toLowerCase();
+      this.post._id = this.post.title.trim().split(' ').join('-').toLowerCase();
     }
     this.postService.updatePost(this.post).subscribe(r => {
       this.changesSaved = r.ok === 1;

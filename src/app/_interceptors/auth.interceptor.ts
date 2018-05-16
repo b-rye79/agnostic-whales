@@ -9,9 +9,9 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private authService: AuthService){}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        var cuString = localStorage.getItem('currentUser');
-        if (cuString) {
-            var currentUser = JSON.parse(cuString);
+        var storedUser = localStorage.getItem('currentUser');
+        if (storedUser) {
+            var currentUser = JSON.parse(storedUser);
             const authReq = req.clone({ setHeaders: { "X-Auth-Token": `${currentUser.token.idToken}` } });
 
             return next.handle(authReq);
@@ -19,6 +19,4 @@ export class AuthInterceptor implements HttpInterceptor {
         return next.handle(req);
 
     }
-
-    // TODO: intercept responses to look for 401's and perform logout and redirect
 }
